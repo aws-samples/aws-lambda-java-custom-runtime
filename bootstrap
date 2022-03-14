@@ -1,0 +1,9 @@
+#!/bin/sh
+
+$LAMBDA_TASK_ROOT/jre18-slim/bin/java \
+    --add-opens java.base/java.util=ALL-UNNAMED \
+    -XX:+TieredCompilation \
+    -XX:TieredStopAtLevel=1 \
+    -Xshare:on \
+    -XX:+UseSerialGC \
+    -jar function.jar "$_HANDLER"
