@@ -1,11 +1,12 @@
-# AWS Lambda custom runtime based on minimal Java 18 JRE
+# AWS Lambda custom runtime with Java 18
 An AWS Lambda custom runtime to enable Java 18 support on a minimalistic JRE, which only includes the Java modules required by the application.
 
 ![overview](docs/overview.png)
 
-1.	Use the application code (uber.jar), download the preferred Java version and create a bootstrap file with optimized starting instructions for the application.
-2.	Take advantage of using jdeps and jlink to create a minified Java runtime based on the application needs, start the app with Class Data Sharing enabled to get the classes file for later start optimizations and build the runtime.zip out of those components
-3.	Deploy the runtime, including the app, to AWS Lambda via AWS CDK
+1.	Download the preferred Java version and take advantage of jdeps, jlink and Class Data sharing to create a minified and optimized Java runtime based on the application code (function.jar).
+2.	Create a bootstrap file with optimized starting instructions for the application.
+3.	Package the application code, the optimized Java runtime and the bootstrap file as a zip file.
+4.	Deploy the runtime, including the app, to AWS Lambda e.g. via the AWS Cloud Development Kit (CDK)
 
 ## Getting started
 
