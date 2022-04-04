@@ -33,7 +33,7 @@ The API Gateway endpoint URL is displayed in the output and saved in the file `i
 ```
 {
   "LambdaCustomRuntimeMinimalJRE18InfrastructureStack": {
-    "apiendpoint": "https://<API_ID>.execute-api.<AWS_REGION>.amazonaws.com"
+    "apiendpoint": "https://<API_ID>.execute-api.<AWS_REGION>.amazonaws.com/prod/"
   }
 }
 ```
