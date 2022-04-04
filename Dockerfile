@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 amazonlinux:2 AS packer
+FROM amazonlinux:2
 
 # Add the Amazon Corretto repository
 RUN rpm --import https://yum.corretto.aws/corretto.key
@@ -17,20 +17,14 @@ COPY software software
 WORKDIR /software/example-function
 RUN mvn clean package
 
-# Find JDK module dependencies dynamically from our uber jar
-RUN jdeps \
-    # dont worry about missing modules
+# Find JDK module dependencies dynamically from the uber jar
+RUN jdeps -q \
     --ignore-missing-deps \
-    # suppress any warnings printed to console
-    -q \
-    # java release version targeting
     --multi-release 18 \
-    # output the dependencies at end of run
     --print-module-deps \
-    # pipe the result of running jdeps on the function jar to file
     target/function.jar > jre-deps.info
 
-# Create a slim Java 18 JRE which only contains the required modules to run this function
+# Create a slim Java 18 JRE which only contains the required modules to run the function
 RUN jlink --verbose \
     --compress 2 \
     --strip-java-debug-attributes \
@@ -39,14 +33,12 @@ RUN jlink --verbose \
     --output /jre18-slim \
     --add-modules $(cat jre-deps.info)
 
-
 # Use Javas Application Class Data Sharing feature
 # It creates the file /jre18-slim/lib/server/classes.jsa
-RUN /jre18-slim/bin/java -Xshare:dump -Xbootclasspath/a:/software/example-function/target/function.jar
+RUN /jre18-slim/bin/java -Xshare:dump
 
 # Package everything together into a custom runtime archive
 WORKDIR /
-
 COPY bootstrap bootstrap
 RUN chmod 755 bootstrap
 RUN cp /software/example-function/target/function.jar function.jar

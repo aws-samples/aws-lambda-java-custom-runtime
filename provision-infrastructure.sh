@@ -1,18 +1,17 @@
 #!/bin/sh
 set -e
 
-# let's remember the projects root directory location
+# Remember the projects root directory location
 PROJECT_ROOT_DIRECTORY=$(pwd)
 
-# navigate into the infrastructure sub-directory
+# Navigate into the infrastructure sub-directory
 cd infrastructure
 
-# deploy the AWS infrastructure
+# Deploy the AWS infrastructure via AWS CDK and store the outputs in a file
 cdk deploy --outputs-file target/outputs.json
 
-# test the Amazon API Gateway endpoint
-# we should see an HTTP 200 status code
-curl -i -XPOST $(cat target/outputs.json | jq -r '.LambdaCustomRuntimeMinimalJRE18InfrastructureStack.apiendpoint')/custom-runtime
+# Test the Amazon API Gateway endpoint - We should see a "successful" message
+curl -XPOST $(cat target/outputs.json | jq -r '.LambdaCustomRuntimeMinimalJRE18InfrastructureStack.apiendpoint')/custom-runtime
 
-# navigate back into the projects root directory
+# Navigate back into the projects root directory
 cd $(pwd)
