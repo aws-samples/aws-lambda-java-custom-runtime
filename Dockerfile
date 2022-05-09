@@ -1,4 +1,4 @@
-FROM amazonlinux:2
+FROM --platform=linux/amd64 amazonlinux:2
 
 # Add the Amazon Corretto repository
 RUN rpm --import https://yum.corretto.aws/corretto.key
