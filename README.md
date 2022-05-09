@@ -1,5 +1,6 @@
 # AWS Lambda custom runtime with Java 18
 An AWS Lambda custom runtime to enable Java 18 support on a minimalistic JRE, which only includes the Java modules required by the application.
+This is the example repository for the [Build a custom Java runtime for AWS Lambda](https://aws.amazon.com/blogs/compute/build-a-custom-java-runtime-for-aws-lambda/) blog post.
 
 ![overview](docs/overview.png)
 
